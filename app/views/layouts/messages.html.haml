@@ -1,0 +1,37 @@
+// Author : Rehmat Qadir
+// Description : nxbmail
+// Date : 11th Aug, 2011
+
+// Layout of Application.. used in the users login
+!!!
+%html
+  %head
+    %meta{'http-equiv' => 'content-type', :content => 'text/html'}
+    %meta{:name => 'author', :content => 'Rehmat Qadir'}
+    %meta{:name => 'description', :content => 'Email Client'}
+    %meta{:name => 'keywords', :content => 'nxbmail'}
+    %title
+      - if !@page_title.nil? then
+        = @page_title
+      - else
+        = "NXB Mail"
+        - $imap.select('INBOX')
+        - @unseen = $imap.search(["UNSEEN"]).count
+        - if @unseen > 0 then
+          = "(#{@unseen})"
+    %link{:rel => 'SHORTCUT ICON', :href => '/images/favicon.ico', :type => 'image/x-icon'}
+    = stylesheet_link_tag 'style'
+    = include_tiny_mce_if_needed
+    = csrf_meta_tag
+  %body
+    #wrapper
+      = render :partial => 'partials/header_mesg'
+      %span.welcometxt Welcome
+      %span.welcomename
+        - $name.each do |n|
+          = n.capitalize
+      #content-container
+        = render :partial => 'navigation'
+        = yield
+        .clearboth
+      = render :partial => 'partials/footer'

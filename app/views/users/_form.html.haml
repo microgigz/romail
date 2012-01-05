@@ -1,0 +1,8 @@
+// form for user login
+
+= simple_form_for :users do |f|
+  = f.input :username, :required => false, :input_html => { :class => 'login-input' }, :label => "Username :", :placeholder => "example@nxb.com.pk"
+  %p.newline
+  = f.input :password, :required => false, :input_html => { :class => 'login-input' }, :label => "Password :", :placeholder => "password"
+  %p.newline
+  = f.button :submit, :value => "Sign in", :class => 'login-submit'

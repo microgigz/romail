@@ -1,0 +1,6 @@
+#content
+  - if $edit_domain.nil? then
+    = render 'add_domain_form'
+  - else
+    = render 'edit_domain_form'
+  = render 'domain_listing'

@@ -1,0 +1,36 @@
+.container.profile_div
+  .contentbox
+    %table
+      %tr.conthead
+        %th Edit Profile
+    = simple_form_for :edit_profile, :url => url_for({:controller => :admin, :action => :update_profile}), :html => { :multipart => true } do |form|
+      .inputboxes
+        = form.input :first_name, :label => 'First Name ', :required => false, :input_html => {:value => "#{$admin_edit_profile[:first_name]}", :class => 'inputbox'}
+      .inputboxes
+        = form.input :last_name, :label => 'Last Name ', :required => false, :input_html => {:value => "#{$admin_edit_profile[:last_name]}", :class => 'inputbox'}
+      .inputboxes
+        = form.input :email, :label => 'Email Address ', :required => false, :input_html => {:value => "#{$admin_edit_profile[:email]}", :class => 'inputbox'}
+      .inputboxes1
+        = form.input :temp_file, :label => false, :disabled => true,:required => false, :input_html => {:placeholder => "Click here to browse", :class => 'inputbox'}
+      .inputboxes2
+        Profile Picture
+        = form.file_field :avatar, :class => 'input-file'
+      %br/
+      %br/
+      %br/
+      .inputboxes
+        = form.button :submit, :value => 'Update', :class => 'submit-btn'
+
+    .contentbox
+    %table
+      %tr.conthead
+        %th Change Password
+    = simple_form_for :reset_password, :url => url_for({:controller => :admin, :action => :reset_password}) do |f|
+      .inputboxes
+        = f.input :current_password, :label => 'Current Password', :required => false, :input_html => {:value => "", :class => 'inputbox'}
+      .inputboxes
+        = f.input :new_password, :label => 'New Password', :required => false, :input_html => {:value => "", :class => 'inputbox'}
+      .inputboxes
+        = f.input :confirm_password, :label => 'Confirm Password', :required => false, :input_html => {:value => "", :class => 'inputbox'}
+      .inputboxes
+        = f.button :submit, :value => 'Update', :class => 'submit-btn'

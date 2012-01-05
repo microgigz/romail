@@ -1,0 +1,13 @@
+= simple_form_for :admin do |form|
+  - if !flash[:notice].nil? then
+    = flash[:notice]
+  %br/
+  .inputcontainer
+    = image_tag("../images/username.png")
+    = form.input :username, :label => false, :required => false, :placeholder => 'Username'
+  .inputcontainer
+    = image_tag("../images/password.png")
+    = form.input :password, :label => false, :required => false, :placeholder => 'Password'
+  = form.button :submit, :value => 'Login', :class => 'loginsubmit'
+%p
+  = link_to('Forgotten password')

@@ -1,0 +1,13 @@
+%span.folder-heading Delete Folder
+= simple_form_for :delete do |f|
+  - @folders = $imap.list('', '*')
+  - @n = @folders.length
+  - @i = 0
+  - @arr = []
+  - while @n > @i do
+    - if "#{@folders.fetch(@n-1).name}" != "INBOX" && "#{@folders.fetch(@n-1).name}" != "Drafts" && "#{@folders.fetch(@n-1).name}" != "Sent" && "#{@folders.fetch(@n-1).name}" != "Trash" then
+      - @arr << "#{@folders.fetch(@n-1).name}"
+    - @n -= 1
+  = f.input :folder_name, :label => 'Select Folder', :collection => @arr, :prompt => "Select Folder", :required => false, :input_html => {:class => "delfolderselect"}
+  %p.clearboth
+  = f.button :submit, :value => 'Delete', :class => 'send-btn'

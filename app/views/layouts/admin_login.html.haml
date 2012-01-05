@@ -1,0 +1,20 @@
+// Author : Rehmat Qadir
+// Description : nxbmail
+
+// Admin Panel login layout
+
+!!!
+%html
+  %head
+    %meta{'http-equiv' => 'content-type', :content => 'text/html'}
+    %meta{:name => 'author', :content => 'Rehmat Qadir'}
+    %meta{:name => 'description', :content => 'Email Client'}
+    %meta{:name => 'keywords', :content => 'nxbmail'}
+    %title Email Client - Admin Panel
+    %link{:rel => 'SHORTCUT ICON', :href => '../images/favicon.ico', :type => 'image/x-icon'}
+    = stylesheet_link_tag 'admin_login'
+    = include_tiny_mce_if_needed
+    = csrf_meta_tag
+  %body
+    #logincontainer
+      = yield

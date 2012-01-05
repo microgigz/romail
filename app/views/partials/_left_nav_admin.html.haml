@@ -1,0 +1,25 @@
+// left tab in admin panel.. this contains user profile and welcome mesg to admin..
+// also contains home, settings and logout links
+
+#left
+  #userbox
+    %p
+      Welcome
+      = "#{@admin.first_name.capitalize}" unless @admin.nil?
+      %p
+        %span You are logged in as Admin
+    %ul
+      %li
+        = link_to image_tag("../images/home2.png"), :controller => :admin, :action => 'home'
+      %li
+        = link_to image_tag("../images/configure.png"), :controller => :admin, :action => 'update_profile'
+      %li
+        = link_to image_tag("../images/logout_admin.png"), :controller => :admin, :action => 'destroy'
+
+  #mini-profile
+    #mini-profile-pic-div
+      = image_tag @admin.avatar.url(:medium), :class => 'mini-profile-img'
+    %p
+      %span#mini-profile-text
+        = @admin.email
+    = link_to("View Profile", {:controller => :admin, :action => :view_profile})

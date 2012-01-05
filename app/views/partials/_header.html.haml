@@ -1,0 +1,12 @@
+// Header for the application layout.. that contains only the company logo
+
+%header
+  - if !@domain.nil?
+    - if !@domain.avatar_file_name.nil?
+      = image_tag  @domain.avatar.url(:medium)
+    - else
+      %h1.company
+        = @domain.company_name unless @domain.nil?
+  - else
+    %h1.company
+      No Company

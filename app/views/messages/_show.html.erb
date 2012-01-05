@@ -1,0 +1,46 @@
+<%
+$imap.select("#{@folder_name}")
+$imap.search(["#{@id}"]).each do |message_id|
+  envelope = $imap.fetch(message_id, "ENVELOPE")[0].attr["ENVELOPE"]
+  $imap.store(message_id, "+FLAGS", [:SEEN])
+  #attachment = $imap.fetch(message_id, "BODY[#{2}]")[0].attr["BODY[#{2}]"]
+  #attachment = File.open(attachment.first,"w+")
+  
+  @msgid = message_id
+  if envelope.from[0].name == nil
+    @sender = "#{envelope.from[0].mailbox}@#{envelope.from[0].host}"
+  else
+    @sender = "#{envelope.from[0].name}"
+  end
+  if @folder_name != 'Drafts'
+    if envelope.to[0].name == nil
+      @recipient = "#{envelope.to[0].mailbox}@#{envelope.to[0].host}"
+    else
+      @recipient = "#{envelope.to[0].name}"
+    end
+  end
+
+  logger.info "***********************************"
+  logger.info $imap.fetch(message_id, 'BODY[TEXT]')
+  logger.info "***********************************"
+  
+  $date = envelope.date
+  @message = $imap.fetch(message_id, 'BODY[TEXT]') %>
+<% end %>
+<div id="mesg-header">
+  <span class="heading">Sender : </span><%= @sender %>
+  <%= link_to("Back",{:controller=>'messages', :action=>'index', :folder => "#{@folder_name}"}, :class=>'back-msgs') %><br />
+  <% if @folder_name != 'Drafts' %>
+    <span class="heading">Recipient : </span><%= @recipient %><br />
+  <% end %>
+  <span class="heading">Date : </span><%= $date %>
+
+</div>
+<div id="mesg-body">
+  <% @message = @message[0][:attr]["BODY[TEXT]"] %>
+  <% @message = @message.gsub("\r", "") %>
+  <% @message = @message.gsub("\n", "") %>
+  <% @message = @message.split('</head>') %>
+  <% @message = @message[1].split('</html>') unless @message[1].nil? %>
+  <%=raw @message[0] %>
+</div>

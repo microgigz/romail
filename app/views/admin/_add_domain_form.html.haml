@@ -1,0 +1,23 @@
+.container
+  .contentbox
+    %table
+      %tr.conthead
+        %th Add New Domain
+    = simple_form_for :add_domain, :url => url_for({:controller => :admin, :action => :add_domain}), :html => { :multipart => true } do |form|
+      .inputboxes
+        = form.input :domain_name, :label => 'Domain Name ', :required => false, :input_html => {:class => 'inputbox', :placeholder => 'domain-name.com'}
+      .inputboxes
+        = form.input :imap_server, :label => 'IMAP Server ', :required => false, :input_html => {:class => 'inputbox', :placeholder => 'mail.domain-name.com'}
+      .inputboxes
+        =form.input :company_name, :label => 'Company Name ', :required => false, :input_html => {:class => 'inputbox', :placeholder => 'Company'}
+      .inputboxes1
+        = form.input :temp_file, :label => false, :disabled => true, :required => false, :input_html => {:placeholder => "Click here to browse (png image)", :class => 'inputbox'}
+      .inputboxes2
+        Company Logo
+        = form.file_field :avatar, :class => 'input-file'
+      %br/
+      %br/      
+      .inputboxes
+        = form.input :status, :required => false, :label => 'Status', :as => :radio,  :input_html => {:class => 'inputbox', :checked => true}
+      .inputboxes
+        = form.button :submit, :value => 'Add', :class => 'submit-btn'

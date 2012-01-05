@@ -1,0 +1,75 @@
+<span class="folder-heading">Folder Details</span>
+<table class="folder-table">
+  <tr>
+    <th>Folder Name</th>
+    <th>Messages</th>
+    <th>Sub / Un-sub</th>
+  </tr>
+  <tr>
+    <%
+    $imap.select("INBOX")
+    @emails = $imap.search(["ALL"]).count
+  %>
+    <td class="email-list">INBOX</td>
+    <td class="email-list"><%= @emails %></td>
+    <td class="email-list"></td>
+  </tr>
+  <tr>
+    <%
+    $imap.select("Drafts")
+    @emails = $imap.search(["ALL"]).count
+  %>
+    <td class="email-list">Drafts</td>
+    <td class="email-list"><%= @emails %></td>
+    <td class="email-list"></td>
+  </tr>
+  <tr>
+    <%
+    $imap.select("Sent")
+    @emails = $imap.search(["ALL"]).count
+  %>
+    <td class="email-list">Sent</td>
+    <td class="email-list"><%= @emails %></td>
+    <td class="email-list"></td>
+  </tr>
+  <tr>
+    <%
+    $imap.select("Junk")
+    @emails = $imap.search(["ALL"]).count
+  %>
+    <td class="email-list">Junk</td>
+    <td class="email-list"><%= @emails %></td>
+    <td class="email-list"></td>
+  </tr>
+  <tr>
+    <%
+    $imap.select("Trash")
+    @emails = $imap.search(["ALL"]).count
+  %>
+    <td class="email-list">Trash</td>
+    <td class="email-list"><%= @emails %></td>
+    <td class="email-list"></td>
+  </tr>
+  <%
+  @folders = $imap.list('', '*')
+  @i = 0
+  @folders.each do |f|
+    $imap.select("#{@folders.fetch(@i).name}")
+    @total_emails = $imap.search(["ALL"]).count
+  %>
+    <% if "#{@folders.fetch(@i).name}" != "INBOX" && "#{@folders.fetch(@i).name}" != "Drafts" && "#{@folders.fetch(@i).name}" != "Sent" && "#{@folders.fetch(@i).name}" != "Trash" && "#{@folders.fetch(@i).name}" != "Junk" then %>
+      <tr>
+        <td class="email-list"><%= @folders.fetch(@i).name.capitalize %></td>
+        <td class="email-list"><%= @total_emails %></td>
+        <td class="email-list">
+          <% if ! $imap.lsub('', "#{@folders.fetch(@i).name}") %>
+            <%= link_to("Subscribe", {:controller => :messages, :action => :sub_unsub, :folder => "#{@folders.fetch(@i).name}"}, :class => "headermenuitem") %>
+          <% else %>
+            <%= link_to("Un-subscribe", {:controller => :messages, :action => :sub_unsub, :folder => "#{@folders.fetch(@i).name}"}, :class => "headermenuitem") %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    <% @i += 1 %>
+  <% end %>
+</table>

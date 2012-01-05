@@ -1,0 +1,28 @@
+.container.domain_listing_div
+  .contentbox
+    %table
+      %tr.conthead
+        %th Domain Name
+        %th IMAP Server
+        %th Status
+        %th{'width' => '130px'} Actions
+      - @domains.each do |domain| unless @domains.nil?
+        %tr
+          %td
+            = domain.domain_name
+          %td
+            = domain.imap_server
+          %td
+            - if domain.status == false
+              = "In-active"
+            - else
+              = "Active"
+          %td
+            = link_to image_tag("../images/edit.png", :title => 'Edit', :alt => 'Edit', :class => 'action-icon'), :controller => :admin, :action => :edit_domain, :id => domain.id
+            = link_to image_tag("../images/delete.png", :title => 'Delete', :alt => 'Delete', :class => 'action-icon'), :controller => :admin, :action => :delete_domain, :id => domain.id
+              - if domain.status == false
+                = link_to image_tag("../images/activate.png", :title => 'Activate', :alt => 'Activate', :class => 'action-icon'), :controller => :admin, :action => :active_inactive, :id => domain.id
+              - else
+                = link_to image_tag("../images/deactivate.png", :title => 'De-activate', :alt => 'De-activate', :class => 'action-icon'), :controller => :admin, :action => :active_inactive, :id => domain.id
+    .apple_pagination
+      = will_paginate @domains

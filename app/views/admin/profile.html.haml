@@ -1,0 +1,5 @@
+#content
+  - if $admin_edit_profile.nil? then
+    = render 'view_profile'
+  - else
+    = render 'edit_profile_form'

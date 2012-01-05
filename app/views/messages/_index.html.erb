@@ -1,0 +1,86 @@
+<% @page_title = "#{@folder_name.capitalize}" unless @folder_name.nil? %>
+<%= form_for :move, :url => {:controller => :messages, :action => :movemesgs} do |f| %>
+  <table style="text-align: left; width: 100%">
+    <tr>
+      <th style="width: 20px;">
+        <%= check_box_tag "", "", false, :disabled => true %>
+      </th>
+      <th>
+        <% if @folder_name == 'Drafts' || @folder_name == 'Sent' %>
+          <%= "Recipient" %>
+        <% else %>
+          <%= "Sender" %>
+        <% end %>
+      </th>
+      <th>Subject</th>
+      <th>Date - Time</th>
+      <th style="text-align: center">Delete</th>
+    </tr>
+    <tr>
+      <%
+      @flag = false
+      @i = 0
+      $imap.examine("#{@folder_name}")
+      $imap.search(["ALL"]).each do |message_id|
+        @i = message_id
+        envelope = $imap.fetch(message_id, "ENVELOPE")[0].attr["ENVELOPE"]
+        $imap.search(["NOT","SEEN"]).each do |msg_id|
+          
+          if message_id == msg_id then
+            @flag = true
+          end
+        end
+      %>
+        <td>
+          <%= check_box_tag :mov, "#{message_id}" %>
+        </td>
+        <td>
+          <%
+          if @folder_name == 'Sent'
+            if envelope.to[0].name != nil
+              title = envelope.to[0].name
+            elsif envelope.to[0].mailbox != nil
+              str = envelope.to[0].mailbox.split('.')
+              title = str[0].capitalize + " " + str[1].capitalize
+            else
+              title = nil
+            end
+          else
+            if envelope.from[0].name == nil
+              title = "#{envelope.from[0].mailbox}"
+            else
+              title = "#{envelope.from[0].name}"
+            end
+          end
+          subject = truncate("#{envelope.subject}")
+        %><% if @flag == true then %><b>
+          <%= link_to(title, {:action=>'show',:id => message_id, :folder => "#{@folder_name}"},:class => 'details') %>
+          </b><% @flag = false %>
+            <%= image_tag("../images/new2.png", :class => "mailbox-icon") %>
+          <% else %>
+          <%= link_to(title, {:action=>'show',:id => message_id, :folder => "#{@folder_name}"},:class => 'details') %>
+          <% end %>
+        </td>
+        <td>
+<% if @flag == true then %><b>
+          <%= link_to("#{subject}", {:action=>'show',:id => message_id, :folder => "#{@folder_name}"},:class => 'details') %>
+        </b>
+          <% else %>
+          <%= link_to("#{subject}", {:action=>'show',:id => message_id, :folder => "#{@folder_name}"},:class => 'details') %>
+          <% end %>
+        </td>
+        <td>
+          <span class="date-time"><%= envelope.date %></span>
+        </td>
+        <td style="text-align: center">
+          <%= link_to image_tag("../images/del-sm.png", :border => 0), :action => 'destroy', :id => message_id, :folder => "#{@folder_name}" %>
+        </td>
+      </tr>
+      <% will_paginate @aray %>
+    <% end %>
+  </table>
+  <div class="more-btn-div">
+    <%= submit_tag("Move") %>
+    
+  <% end %>
+</div>

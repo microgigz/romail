@@ -1,0 +1,43 @@
+<div id="nav-panel">
+  <a href="/messages/new" title="New Message"><button class="compose-btn">Compose mail</button></a>
+  <ul class="nav">
+    <%= link_to({:controller => 'messages', :action => "index", :folder => "INBOX"}) do %>
+      <li class="links"><%= image_tag("../images/inbox.png", :class => "mailbox-icon") %>&nbsp;&nbsp;&nbsp;Inbox
+<% $imap.select('INBOX') %>
+<% @unseen = $imap.search(["UNSEEN"]).count
+if @unseen > 0 then
+  %><%= "(#{@unseen})" %>
+<% end %>
+</li>
+    <% end %>
+    <%= link_to({:controller => 'messages', :action => "index", :folder => "Drafts"}) do %>
+      <li class="links"><%= image_tag("../images/drafts.gif", :class => "mailbox-icon") %>&nbsp;&nbsp;&nbsp;Drafts
+      </li>
+    <% end %>
+    <%= link_to({:controller => 'messages', :action => "index", :folder => "Sent"}) do %>
+      <li class="links"><%= image_tag("../images/sent.png", :class => "mailbox-icon") %>&nbsp;&nbsp;&nbsp;Sent
+      </li>
+    <% end %>
+      <%= link_to({:controller => 'messages', :action => "index", :folder => "Junk"}) do %>
+      <li class="links"><%= image_tag("../images/junk.png", :class => "mailbox-icon") %>&nbsp;&nbsp;&nbsp;Junk
+      </li>
+    <% end %>
+    <%= link_to({:controller => 'messages', :action => "index", :folder => "Trash"}) do %>
+      <li class="links"><%= image_tag("../images/trash.gif", :class => "mailbox-icon") %>&nbsp;&nbsp;&nbsp;Trash
+      </li>
+    <% end %>
+    <% @folders = $imap.lsub("", "*")
+    @n = @folders.length
+    @i = 0
+    while @n > @i do %>
+      <% if "#{@folders.fetch(@n-1).name}" != "INBOX" && "#{@folders.fetch(@n-1).name}" != "Drafts" && "#{@folders.fetch(@n-1).name}" != "Sent" && "#{@folders.fetch(@n-1).name}" != "Trash" && "#{@folders.fetch(@n-1).name}" != "Junk" then %>
+        <%= link_to({:controller => 'messages', :action => "index", :folder => "#{@folders.fetch(@n-1).name}"}) do %>
+          <li class="links"><%= image_tag("../images/folder.png", :class => "mailbox-icon") %>&nbsp;&nbsp;&nbsp;<%= "#{@folders.fetch(@n-1).name.capitalize}" %>
+          </li>
+        <% end %>
+      <% end %>
+      <%  @n -= 1
+    end
+  %>
+  </ul>
+</div>

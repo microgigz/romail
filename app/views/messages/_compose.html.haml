@@ -1,0 +1,11 @@
+- @page_title = "Compose"
+= simple_form_for :compose do |c|
+  .compose-text
+    = c.input :to, :label => "To", :required => false, :input_html => { :class => 'composetext' }
+    %p.clearboth
+    = c.input :subject, :label => "Subject", :required => false, :input_html => { :class => 'composetext' }
+  %p.clearboth
+  = c.input :message, :label => false, :input_html => {:class => "mceEditor"},:placeholder => "Type your message here...", :required => false, :as => :text
+  = c.button :submit, :value => 'Send', :class => 'send-btn'
+  = link_to("Save Draft", {:controller => :messages, :action => :savedraft}, :class => "save")
+  = link_to("Cancel", {:controller => :messages, :action => :index, :folder => 'INBOX'}, :class => "cancel")

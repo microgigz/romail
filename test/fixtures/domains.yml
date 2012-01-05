@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  domain_name: MyString
+  imap_server: MyString
+  active: false
+
+two:
+  domain_name: MyString
+  imap_server: MyString
+  active: false

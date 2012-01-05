@@ -1,0 +1,31 @@
+.container.profile_div
+  .contentbox
+    %table
+      %tr.conthead
+        %th{'colspan' => '2' }Profile Details
+        %th{:class => "profile-img", 'rowspan' => '6'}
+          = image_tag  @admin.avatar.url(:original), :class => 'profile-pic'
+      %tr
+        %td Username
+        %td
+          = @admin.username
+      %tr
+        %td First Name
+        %td
+          = @admin.first_name
+      %tr
+        %td Last Name
+        %td
+          = @admin.last_name
+      %tr
+        %td{'width' => '120px'} Email Address
+        %td
+          = @admin.email
+      %tr
+        %td{'height' => '35px'}
+        %td
+      %tr
+        %td
+        %td
+          = link_to("Edit Profile", {:controller => :admin, :action => :update_profile})
+        %td

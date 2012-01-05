@@ -1,0 +1,5 @@
+%span.folder-heading Create Folder
+= simple_form_for :add do |f|
+  = f.input :folder_name, :label => "Folder Name", :required => false, :input_html =>{:class => 'addfolderinput'}
+  %p.clearboth
+  = f.submit 'Create', :class => 'send-btn'

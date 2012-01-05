@@ -1,0 +1,19 @@
+<span class="folder-heading">Rename Folder</span>
+<%= simple_form_for :rename do |f| %>
+  <% @folders = $imap.list('', '*')
+  @n = @folders.length
+  @i = 0
+  @arr = []
+  while @n > @i do %>
+    <% if "#{@folders.fetch(@n-1).name}" != "INBOX" && "#{@folders.fetch(@n-1).name}" != "Drafts" && "#{@folders.fetch(@n-1).name}" != "Sent" && "#{@folders.fetch(@n-1).name}" != "Trash" then %>
+      <%  @arr << "#{@folders.fetch(@n-1).name}" %>
+    <% end %>
+    <%  @n -= 1
+  end
+%>
+  <%= f.input :old_name, :label => 'Select Folder', :collection => @arr, :prompt => "Select Folder", :required => false, :input_html => {:class => "delfolderselect"} %>
+  <p class="clearboth"></p>
+  <%= f.input :new_name, :label => "New Name", :required => false, :input_html =>{:class => 'addfolderinput'} %>
+  <p class="clearboth"></p>
+  <%= f.button :submit, :value => 'Rename', :class => 'send-btn'%>
+<% end %>

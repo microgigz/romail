@@ -1,0 +1,13 @@
+// check for error message if any. otherwise show login here warning!
+
+.error-msg-div
+  %span.error-msg
+    - if $error_msg == nil || $error_msg == ""
+      - $error_msg = "Login Here !"
+    = $error_msg
+    - $error_msg=""
+
+// Create login container where user can login
+
+#login-container
+  = render 'form'

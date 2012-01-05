@@ -1,0 +1,10 @@
+// Contains logo and top menu links
+
+%header
+  = link_to image_tag("../images/nxblogo.png"), :controller => :messages, :action => 'index', :folder => "INBOX"
+  #headermenu
+    = link_to("Email", {:controller => :messages, :action => 'index', :folder => 'INBOX'}, :class => 'headermenuitem')
+    %span.menu-sep ||
+    = link_to("Settings", {:controller => :messages, :action => 'settings'}, :class => 'headermenuitem')
+    %span.menu-sep ||
+    = link_to("Logout",{:controller=>'users',:action=>'logout'}, :class => 'headermenuitem')

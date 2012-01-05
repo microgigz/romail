@@ -1,0 +1,13 @@
+.right-panel
+  #div-header
+    %span.setting-heading Folders
+  .listfolders
+    = render 'listfolders'
+    - if !flash[:notice].nil? then
+      = flash[:notice]
+  .addfolder
+    = render 'addfolder'
+  .addfolder
+    = render 'delfolder'
+  .addfolder
+    = render 'renamefolder'
